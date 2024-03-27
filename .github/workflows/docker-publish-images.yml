@@ -1,6 +1,11 @@
 name: Docker publish
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (optional)'
+        required: false
   push:
     branches:
       - 'main'
@@ -8,6 +13,9 @@ on:
 jobs:
   docker-base-image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         component:
@@ -66,7 +74,9 @@ jobs:
       - docker-base-image
 
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: false
       matrix:
